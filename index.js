@@ -64,7 +64,7 @@ sideBar.forEach((link, _, arr) => {
     link.classList.add("nav-iconBg");
   });
 });
-
+// default
 document.querySelector(".main-container").style.display = "block";
 document.querySelector(".musicContainer").style.display = "none";
 document.querySelector(".sceneContainer").style.display = "none";

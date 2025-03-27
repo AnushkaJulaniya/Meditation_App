@@ -17,16 +17,14 @@ const genAI = new GoogleGenerativeAI("AIzaSyDb47w0NrEjpZfBA4lGISU0NWBTx6fBKOc");
 const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
 // Load cache from localStorage when the page loads
-let geminiCache = JSON.parse(localStorage.getItem("geminiCache")) || {};
+let geminiCache = JSON.parse(localStorage.getItem("geminiCache")) || {};   //object create 
 
 async function runGimini(query) {
   if (query === "") {
-    resultContainer.style.boxShadow = "none";
-    return;
+     return;//stop hi ho jaega
   }
-
   // Check cache first
-  if (geminiCache[query]) {
+  if (geminiCache[query]) {//when cache is present in local storage it fetch from cache
     console.log("Fetching from cache...");
      
     displayGeminiData(geminiCache[query], query);
@@ -34,13 +32,13 @@ async function runGimini(query) {
   }
   try {
     const result = await model.generateContent(query);
-    const text = result.response.candidates[0].content.parts[0].text;
+    const text = result.response.candidates[0].content.parts[0].text;///displaying data content
 
     // Cache the result in memory and localStorage
-    geminiCache[query] = text;
-    localStorage.setItem("geminiCache", JSON.stringify(geminiCache));
+    geminiCache[query] = text;//query is a key of object geminiCache
+    localStorage.setItem("geminiCache", JSON.stringify(geminiCache)); // data store in local memory
 
-    displayGeminiData(text , query);//data fetch from api
+    displayGeminiData(text , query);//data fetch from api display data 
   } catch (error) {
     console.error("Error fetching data:", error);
     loader.style.display = "none";
@@ -116,3 +114,6 @@ recognition.onresult = async (event) => {
     isRecognizing = false;
     microphoneIcon.classList.remove("active-mic");
   };
+  window.addEventListener("load", () => {
+    localStorage.removeItem("geminiCache"); // Clear localStorage cache  (when) storage is exceed 
+  });
